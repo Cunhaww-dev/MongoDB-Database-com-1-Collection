@@ -1,0 +1,129 @@
+/*
+criar uma nova base de dados
+
+- inserir uma nova collection
+
+- inserir um conjunto de um total de 10 documentos composto com os seguintes elementos 
+de key: IDNovoMembro, NomeNovoMembro, SobrenomeNovoMembro, IdadeNovoMembro
+
+-executar buscas com: uma busca generalizada; um busca com um valor >= a um parametro;
+ <= a um parametro; uma busca com um intervalo de valores;
+
+- uma consulta com o metodo update, limit e sort;
+- uma consulta com o metodo remove() para excluir um documento
+
+*/
+
+-- Criando 
+a DB
+use DBDocMembros
+
+
+-- Criando a Collection
+db.createCollection('colecMembros')
+
+
+-- Variável com documentos dos membros para futuramente popular a Collection
+let membrosDocs = [
+    {
+        IdMembro: 1,
+        MembroNome: 'Lucas',
+        MembroSobrenome: 'Cunha Fabri',
+        MembroIdade: 22
+    },
+    {
+        IdMembro: 2,
+        MembroNome: 'Johnny',
+        MembroSobrenome: 'Jean',
+        MembroIdade: 21
+    },
+    {
+        IdMembro: 3,
+        MembroNome: 'Victor',
+        MembroSobrenome: 'Linares',
+        MembroIdade: 23
+    },
+    {
+        IdMembro: 4,
+        MembroNome: 'David',
+        MembroSobrenome: 'Silva',
+        MembroIdade: 22
+    },
+    {
+        IdMembro: 5,
+        MembroNome: 'Maitê',
+        MembroSobrenome: 'Cunha Varalda',
+        MembroIdade: 16
+    },
+    {
+        IdMembro: 6,
+        MembroNome: 'Rita',
+        MembroSobrenome: 'De Cássia Ribeiro',
+        MembroIdade: 57
+    },
+    {
+        IdMembro: 7,
+        MembroNome: 'Valter',
+        MembroSobrenome: 'Adriano Fabri',
+        MembroIdade: 52
+    },
+    {
+        IdMembro: 8,
+        MembroNome: 'Bheatriz',
+        MembroSobrenome: 'Da Cunha Varalda',
+        MembroIdade: 33
+    },
+    {
+        IdMembro: 9,
+        MembroNome: 'Barbara',
+        MembroSobrenome: 'Da Cunha Rolim',
+        MembroIdade: 37
+    },
+    {
+        IdMembro: 10,
+        MembroNome: 'Júlia',
+        MembroSobrenome: 'Da Cunha Fabri',
+        MembroIdade: 25
+    }
+]
+
+
+-- Inserindo os Documentos de "membrosDocs"
+db.colecMembros.insertMany(membrosDocs)
+
+
+-- Find() para verificar exito na inserção dos documentos
+db.colecMembros.find()
+
+
+-- Trazendo os membros que possuem Id <= a 5 sem hasNext - e >= 3
+db.colecMembros.find({IdMembro: {$gte: 5}})
+db.colecMembros.find({IdMembro: {$lte: 3}})
+
+
+-- Trazendo os membros que possuem Id <= a 6 com hasNext - e >= 4
+let muitosDados = db.colecMembros.find({IdMembro: {$gte: 6}})
+while(muitosDados.hasNext()){print(muitosDados.next())}
+
+
+let muitosOutrosDados = db.colecMembros.find({IdMembro: {$lte: 4}})
+while(muitosOutrosDados.hasNext()){print(muitosOutrosDados.next())}
+
+
+-- Busca com intervalo de valores
+db.colecMembros.find({$and: [{IdMembro: {$gte: 4}}, {IdMembro: {$lte: 7}}]})
+
+
+-- Consulta com método Update, Limit e Sort
+db.colecMembros.find().limit(3)
+db.colecMembros.find().sort({IdMembro: -1})
+db.colecMembros.updateOne({IdMembro: 10}, {$set: {MembroNome: 'Eloise NOME ALTERADO' }})
+
+
+-- Verificando alteração feita com UpdateOne
+de.colecMembros.find({IdMembros: 10})
+
+
+-- Consulta para remover um documento
+db.colecMembros.findOneAndDelete({IdMembro: 10})
+
