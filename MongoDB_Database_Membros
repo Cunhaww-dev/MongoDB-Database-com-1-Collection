@@ -11,11 +11,9 @@ de key: IDNovoMembro, NomeNovoMembro, SobrenomeNovoMembro, IdadeNovoMembro
 
 - uma consulta com o metodo update, limit e sort;
 - uma consulta com o metodo remove() para excluir um documento
-
 */
 
--- Criando 
-a DB
+-- Criando a DB
 use DBDocMembros
 
 
